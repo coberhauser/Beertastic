@@ -1,0 +1,8 @@
+{
+  "name": "BeerTastic",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "36cd0dcc"
+}

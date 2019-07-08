@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Drinking buddies
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+
+  <ion-card class="bc-card">
+    <ion-input type="text" [(ngModel)]="encodedData"></ion-input>
+    <ion-button (click)="encodedText()">
+      Create QR
+    </ion-button>
+  </ion-card>
+
+  <ion-card class="friends-card">
+    <ion-list>
+      <ion-item-sliding>
+        <ion-item>
+          <ion-label>Beercules</ion-label>
+        </ion-item>
+
+        <ion-item-options side="start" >
+          <ion-item-option color="danger" (click)="drink('Beercules')">Drink!</ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="end">
+          <ion-item-option color="primary" (click)="prost('Beercules')">Prost</ion-item-option>
+          <ion-item-option color="secondary">Join</ion-item-option>
+        </ion-item-options>
+
+      </ion-item-sliding>
+
+      <ion-item-sliding>
+        <ion-item>
+          <ion-label>Masterchief</ion-label>
+        </ion-item>
+        <ion-item-options side="start" >
+          <ion-item-option color="danger" (click)="drink('Masterchief')">Drink!</ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="end">
+          <ion-item-option color="primary" (click)="prost('Masterchief')">Prost</ion-item-option>
+          <ion-item-option color="secondary" >Join</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="light" (click)="shareWithOptions()">
+        <ion-icon name="share"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="light" (click)="pickContact()">
+        <ion-icon name="person-add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="light" (click)="scanCode()">
+        <ion-icon name="barcode"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

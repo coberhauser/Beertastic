@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Welcome to Beertastic
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="welcome-card">
+    <ion-thumbnail>
+        <img src="https://www.ultraliquors.co.za/images/cooldrinks/beer-at-ultraliquors.jpg">
+      </ion-thumbnail>
+    <ion-card-header>      
+      <ion-card-title>Come on in and have a drink! </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Invite friends, share moments, gain rewards, and eventually go back home (or not).</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
+    <ion-fab-button color="dark">
+      <ion-icon name="cog"></ion-icon>
+    </ion-fab-button>    
+  </ion-fab>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="primary" (click)="showToast('Prost')">
+      <ion-icon name="beer"></ion-icon>
+    </ion-fab-button>
+    <p></p>
+    <ion-fab-button color="primary" (click)="onButtonClick()">
+      <ion-icon name="locate"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-content padding>
+    <div id="map_canvas" style="height:100%;">
+     
+    </div>
+  </ion-content>
+
+ 
+</ion-content>
