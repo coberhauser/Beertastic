@@ -3,6 +3,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AppLauncher, AppLauncherOptions } from '@ionic-native/app-launcher';
 import { Platform } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { Contacts, Contact } from '@ionic-native/contacts/ngx';
 
 @Component({
   selector: 'app-tab5',
@@ -12,7 +13,12 @@ import { AlertController } from '@ionic/angular';
 })
 export class Tab5Page {
 
-  constructor(private callNumber: CallNumber, private platform: Platform, public alertController: AlertController) { }
+  constructor(private callNumber: CallNumber, private contacts: Contacts, private platform: Platform, public alertController: AlertController) {
+    this.platform.ready().then((readySource) => {
+      console.log('Platform ready from', readySource);
+    });
+
+  }
 
   async presentAlert(_message) {
     const alert = await this.alertController.create({
@@ -57,6 +63,16 @@ export class Tab5Page {
       .catch(err => {
         this.presentAlert('Dialer is not available');
         console.log('Error launching dialer', err)
+      });
+  }
+
+
+  pickContact(): void {
+    this.contacts.pickContact()
+      .then((response: Contact) => {
+        console.log(response)
+      }).catch((err) => {
+        console.error('Error saving contact.', err)
       });
   }
 }

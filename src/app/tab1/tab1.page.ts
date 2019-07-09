@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform ,ToastController,LoadingController} from '@ionic/angular';
+import { Platform, ToastController, LoadingController, NavController } from '@ionic/angular';
 import {
   GoogleMaps,
   GoogleMap,
@@ -18,15 +18,20 @@ export class Tab1Page {
 
   map: GoogleMap;
   loading: any;
+  dataReturned: any;
 
   constructor(public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController,private platform: Platform) { }
+    public toastCtrl: ToastController, private platform: Platform, public navController: NavController) { }
 
   async ngOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
     // you have to wait the event.
     await this.platform.ready();
     await this.loadMap();
+  }
+
+  public gotoSettings() {
+    this.navController.navigateForward('/settings');
   }
 
   loadMap() {
@@ -43,7 +48,7 @@ export class Tab1Page {
 
   }
 
-  async onButtonClick() {
+  async locateMe() {
     this.map.clear();
 
     this.loading = await this.loadingCtrl.create({
@@ -54,7 +59,7 @@ export class Tab1Page {
     // Get the location of you
     this.map.getMyLocation().then((location: MyLocation) => {
       this.loading.dismiss();
-      console.log(JSON.stringify(location, null ,2));
+      console.log(JSON.stringify(location, null, 2));
 
       // Move the map camera to the location with animation
       this.map.animateCamera({
@@ -79,10 +84,10 @@ export class Tab1Page {
         this.showToast('clicked!');
       });
     })
-    .catch(err => {
-      this.loading.dismiss();
-      this.showToast(err.error_message);
-    });
+      .catch(err => {
+        this.loading.dismiss();
+        this.showToast(err.error_message);
+      });
   }
 
   async showToast(message: string) {
@@ -95,5 +100,17 @@ export class Tab1Page {
     toast.present();
   }
 
+  async drink() {
+    this.locateMe();
+    this.showToast('Prost');
+  }
+
+  GoToList() {
+    this.navController.navigateForward('/modal');
+  }
+
+  BackToList() {
+    this.navController.navigateBack('');
+  }
 }
 

@@ -3,7 +3,7 @@ import {
   BarcodeScannerOptions,
   BarcodeScanner
 } from "@ionic-native/barcode-scanner/ngx";
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { Contacts, Contact } from '@ionic-native/contacts/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { AlertController } from '@ionic/angular';
@@ -19,8 +19,10 @@ export class Tab2Page {
   scannedData: {};
   barcodeScannerOptions: BarcodeScannerOptions;
 
-  constructor(private barcodeScanner: BarcodeScanner, private contacts: Contacts, private plt: Platform, private socialSharing: SocialSharing, public alertController: AlertController) {
-    this.plt.ready().then((readySource) => {
+  constructor(private barcodeScanner: BarcodeScanner, private contacts: Contacts, private platform: Platform, private socialSharing: SocialSharing,
+    private alertController: AlertController,
+    public toastCtrl: ToastController) {
+    this.platform.ready().then((readySource) => {
       console.log('Platform ready from', readySource);
     });
     //Options
@@ -48,7 +50,6 @@ export class Tab2Page {
       .then((response: Contact) => {
         console.log(response)
       }).catch((err) => {
-        this.presentAlert('Contacts are not available');
         console.error('Error saving contact.', err)
       });
   }
@@ -102,11 +103,25 @@ export class Tab2Page {
   }
 
   drink(buddyname) {
-    this.presentAlert2(buddyname, 'Drink with me!')
+    this.showToast('Drink, ' + buddyname + '!');
   }
 
   prost(buddyname) {
-    this.presentAlert2(buddyname, 'Prost!')
+    this.showToast('Prost, ' + buddyname + '!');
+  }
+
+  join(buddyname) {
+    this.showToast('Join me drinking, ' + buddyname + '.');
+  }
+
+  async showToast(message: string) {
+    let toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: 'middle'
+    });
+
+    toast.present();
   }
 
 }

@@ -18,18 +18,18 @@
       <p>Invite friends, share moments, gain rewards, and eventually go back home (or not).</p>
     </ion-card-content>
   </ion-card>
-
+  
   <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
-    <ion-fab-button color="dark">
+    <ion-fab-button color="dark" (click)="gotoSettings()">
       <ion-icon name="cog"></ion-icon>
     </ion-fab-button>    
   </ion-fab>
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="primary" (click)="showToast('Prost')">
+    <ion-fab-button color="primary" (click)="drink()">
       <ion-icon name="beer"></ion-icon>
     </ion-fab-button>
     <p></p>
-    <ion-fab-button color="primary" (click)="onButtonClick()">
+    <ion-fab-button color="primary" (click)="locateMe()">
       <ion-icon name="locate"></ion-icon>
     </ion-fab-button>
   </ion-fab>

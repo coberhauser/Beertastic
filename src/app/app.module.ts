@@ -15,8 +15,13 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [
+    AppComponent, 
+   
+  ],
+  entryComponents: [
+    
+  ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
