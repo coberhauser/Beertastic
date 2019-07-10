@@ -8,27 +8,53 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Account</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Here goes 'Account' settings
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Notifications</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Here goes 'Notifications' settings
-    </ion-card-content>
-  </ion-card>
+  <form [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Account</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="full" class="ion-no-margin ion-no-padding">
+          <ion-item>
+            <ion-label position="stacked">Alias<ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input required type="text" formControlName="alias" name="alias"></ion-input>
+          </ion-item>
+          <div *ngIf="submitted && frm.email.errors" class="invalid-feedback">
+            <ion-item *ngIf="frm.alias.errors.required">
+              <p color="danger">Alias is required!</p>
+            </ion-item>
+          </div>
+          <ion-item>
+            <ion-label position="stacked">E-Mail<ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input required type="email" formControlName="email"></ion-input>
+          </ion-item>
+          <div *ngIf="submitted && frm.email.errors" class="invalid-feedback">
+            <ion-item *ngIf="frm.email.errors.required">
+              <p color="danger">Email is required!</p>
+            </ion-item>
+            <ion-item *ngIf="frm.email.errors.pattern">
+              <p color="danger">Email must be a valid email address!</p>
+            </ion-item>
+          </div>
+        </ion-list>
+        <ion-button expand="block" horizontal="end" vertical="bottom" type="submit">Save</ion-button>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Notifications</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Here goes 'Notifications' settings
+      </ion-card-content>
+    </ion-card>
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="primary" (click)="showToast('Email us support@beertastic.com')">
-      <ion-icon name="help"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+      <ion-fab-button color="primary" (click)="showToast('contact us support@beertastic.com')" type="submit">
+        <ion-icon name="help"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </form>
 </ion-content>

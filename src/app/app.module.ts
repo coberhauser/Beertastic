@@ -10,14 +10,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-import { FormsModule } from '@angular/forms';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
-    AppComponent, 
-   
+    AppComponent
   ],
   entryComponents: [
     
@@ -26,7 +26,9 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
@@ -35,6 +37,9 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
     CallNumber,
     SocialSharing,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  exports: [
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent]
 })
