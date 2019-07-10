@@ -7,48 +7,49 @@
 </ion-header>
 
 <ion-content>
-  
-
   <ion-card class="bc-card">
     <ion-input type="text" [(ngModel)]="encodedData"></ion-input>
-    <ion-button (click)="encodedText()">
+    <ion-button (click)="encodedText()" expand="block" horizontal="end" vertical="bottom">
       Create QR
     </ion-button>
   </ion-card>
 
   <ion-card class="friends-card">
+    
     <ion-list>
-      <ion-item-sliding>
+        <ion-card-header ng-show="!people.length">      
+            <ion-card-title> No friends yet.</ion-card-title>
+          </ion-card-header>
+      <ion-item-sliding *ngFor="let person of people; let i = index">
         <ion-item>
-          <ion-label>Beercules</ion-label>
-        </ion-item>
+          <ion-avatar slot="start">
+            <img src="./assets/icon/favicon.png">
+          </ion-avatar>
+          <ion-label>
+            <h1>{{ person.name }}</h1>
+            <p>{{ person.properties.status }}</p>
+          </ion-label>
 
-        <ion-item-options side="start" >
-          <ion-item-option color="danger" (click)="drink('Beercules')">Drink!</ion-item-option>
+        </ion-item>
+        <ion-item-options side="start">
+          <ion-item-option color="danger" (click)="drink( person.name )">Drink!</ion-item-option>
         </ion-item-options>
 
         <ion-item-options side="end">
-          <ion-item-option color="primary" (click)="prost('Beercules')">Prost</ion-item-option>
-          <ion-item-option color="secondary" (click)="join('Beercules')">Join</ion-item-option>
-        </ion-item-options>
-
-      </ion-item-sliding>
-
-      <ion-item-sliding>
-        <ion-item>
-          <ion-label>Masterchief</ion-label>
-        </ion-item>
-        <ion-item-options side="start" >
-          <ion-item-option color="danger" (click)="drink('Masterchief')">Drink!</ion-item-option>
-        </ion-item-options>
-
-        <ion-item-options side="end">
-          <ion-item-option color="primary" (click)="prost('Masterchief')">Prost</ion-item-option>
-          <ion-item-option color="secondary" (click)="prost('Masterchief')">Join</ion-item-option>
+          <ion-item-option color="primary" (click)="prost( person.name )">Prost</ion-item-option>
+          <ion-item-option color="secondary" (click)="prost( person.name )">Join</ion-item-option>
+          <ion-item-option color="danger" (click)="remove(person)" >Remove</ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
+
     </ion-list>
   </ion-card>
+
+  <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
+      <ion-fab-button color="dark" (click)="reset()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-fab-button>    
+    </ion-fab>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
@@ -61,6 +62,9 @@
       <ion-fab-button color="light" (click)="pickContact()">
         <ion-icon name="person-add"></ion-icon>
       </ion-fab-button>
+      <ion-fab-button color="light" (click)="addTest()">
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-fab-button>
       <ion-fab-button color="light" (click)="scanCode()">
         <ion-icon name="barcode"></ion-icon>
       </ion-fab-button>

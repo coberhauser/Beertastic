@@ -7,6 +7,7 @@ import { Platform, ToastController } from '@ionic/angular';
 import { Contacts, Contact } from '@ionic-native/contacts/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { AlertController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tab2',
@@ -15,13 +16,16 @@ import { AlertController } from '@ionic/angular';
 })
 export class Tab2Page {
 
-  encodeData: any;
+  encodeData: 'This is the good stuff';
   scannedData: {};
   barcodeScannerOptions: BarcodeScannerOptions;
 
+  people: any[] = [];
+
   constructor(private barcodeScanner: BarcodeScanner, private contacts: Contacts, private platform: Platform, private socialSharing: SocialSharing,
     private alertController: AlertController,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    private storage: Storage) {
     this.platform.ready().then((readySource) => {
       console.log('Platform ready from', readySource);
     });
@@ -48,12 +52,48 @@ export class Tab2Page {
   pickContact(): void {
     this.contacts.pickContact()
       .then((response: Contact) => {
-        console.log(response)
+        console.log(response);
+        this.addContact(response);
       }).catch((err) => {
-        console.error('Error saving contact.', err)
+        console.error('Error saving contact.', err);
+
       });
   }
 
+  ngAfterViewInit() {
+    // checking if there's something saved, then...
+    if (this.storage.get('friendsdata')) {
+      this.storage.get('friendsdata').then((data) => {
+        console.log('Your friendsdata is ', data);
+        this.people = data;
+      });
+    }
+  }
+
+  addContact(contact: Contact) {
+    console.log('Contact added ' + contact);
+    this.storage.set('friendsdata', this.people);
+  }
+
+  addTest() {
+    this.people.push({ name: 'test', properties: { status: 'debugging' } });
+    this.storage.set('friendsdata', this.people);
+  }
+
+  remove(person: any) {
+    for (var i = 0; i < this.people.length; i++) {
+      if (this.people[i] === person) {
+        this.people.splice(i, 1);
+      }
+    }
+    console.log('Your friendsdata is ', this.people);
+    this.storage.set('friendsdata', this.people);
+  }
+
+  reset() {
+    this.people = [];
+    this.storage.set('friendsdata', this.people);
+  }
 
   async shareWithOptions() {
     let options = {
