@@ -23,8 +23,19 @@
       Here goes 'Bar of the Month' content
     </ion-card-content>
   </ion-card>
-
+  <ion-card>
+    <ion-card-header>
+      Latest Picture:</ion-card-header>
+    <ion-card-content>
+      <img [src]="base64Image" *ngIf="base64Image" />
+    </ion-card-content>
+  </ion-card>
+ 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="primary" (click)="takePic()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+    <p></p>
     <ion-fab-button color="primary" (click)="placeOrder()">
       <ion-icon name="cart"></ion-icon>
     </ion-fab-button>

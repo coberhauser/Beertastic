@@ -1,49 +1,52 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title >
+    <ion-title>
       Bring me home
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- List of Text Items -->
-  <ion-list>
-    <ion-item button (click)="launchFreeNow()">
-      <ion-icon slot="start" name="car" ></ion-icon>
-      <ion-label>
-        <h3>myTaxi</h3>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="launchUber()">
-      <ion-icon slot="start" name="logo-model-s" ></ion-icon>
-      <ion-label>
-        <h3>uber</h3>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="launchMvg()">
-      <ion-icon slot="start" name="bus" ></ion-icon>
-      <ion-label>
-        <h3>bus</h3>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="launchDb()">
-      <ion-icon slot="start" name="train" ></ion-icon>
-      <ion-label>
-        <h3>train</h3>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="callNow(112)">
-      <ion-icon slot="start" name="medkit" color="danger"></ion-icon>
-      <ion-label color="danger">
-        <h3>emergency</h3>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-card>   
+    <ion-card-content>
+      <ion-list>
+        <ion-item button (click)="launchFreeNow()">
+          <ion-icon slot="start" name="car"></ion-icon>
+          <ion-label>
+            <h1>myTaxi</h1>
+          </ion-label>
+        </ion-item>
+        <ion-item button (click)="launchUber()">
+          <ion-icon slot="start" name="logo-model-s"></ion-icon>
+          <ion-label>
+            <h1>uber</h1>
+          </ion-label>
+        </ion-item>
+        <ion-item button (click)="launchMvg()">
+          <ion-icon slot="start" name="bus"></ion-icon>
+          <ion-label>
+            <h1>bus</h1>
+          </ion-label>
+        </ion-item>
+        <ion-item button (click)="launchDb()">
+          <ion-icon slot="start" name="train"></ion-icon>
+          <ion-label>
+            <h1>train</h1>
+          </ion-label>
+        </ion-item>
+        <ion-item button (click)="callNow(112)">
+          <ion-icon slot="start" name="medkit" color="danger"></ion-icon>
+          <ion-label color="danger">
+            <h1>emergency</h1>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="primary" (click)="pickContact()"> 
+    <ion-fab-button color="primary" (click)="pickContact()">
       <ion-icon name="call"></ion-icon>
-    </ion-fab-button>    
+    </ion-fab-button>
   </ion-fab>
 </ion-content>

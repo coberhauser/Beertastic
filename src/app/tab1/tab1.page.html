@@ -8,23 +8,24 @@
 
 <ion-content>
   <ion-card class="welcome-card">
-    <ion-thumbnail>
-        <img src="https://www.ultraliquors.co.za/images/cooldrinks/beer-at-ultraliquors.jpg">
-      </ion-thumbnail>
-    <ion-card-header>      
+
+    <ion-card-header>
       <ion-card-title>Come on in and have a drink! </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <p>Invite friends, share moments, gain rewards, and eventually go back home (or not).</p>
     </ion-card-content>
   </ion-card>
-  
+
+  <div id="map_canvas" style="height:80%;">
+  </div>
+
   <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
     <ion-fab-button color="dark" (click)="gotoSettings()">
       <ion-icon name="cog"></ion-icon>
-    </ion-fab-button>    
+    </ion-fab-button>
   </ion-fab>
-  
+
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <ion-fab-button color="primary" (click)="drink()">
       <ion-icon name="beer"></ion-icon>
@@ -34,12 +35,6 @@
       <ion-icon name="locate"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-  <ion-content padding>
-    <div id="map_canvas" style="height:100%;">
-     
-    </div>
-  </ion-content>
 
 
 </ion-content>
