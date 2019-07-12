@@ -66,13 +66,13 @@ export class Tab5Page {
       });
   }
 
-
   pickContact(): void {
     this.contacts.pickContact()
       .then((response: Contact) => {
-        console.log(response)
+        console.log(response);
+        this.callNow(response.phoneNumbers[0].value);
       }).catch((err) => {
-        console.error('Error saving contact.', err)
+        console.error('Error calling contact.', err);
       });
   }
 }

@@ -16,10 +16,9 @@ import { Storage } from '@ionic/storage';
 })
 export class Tab2Page {
 
-  encodeData: 'This is the good stuff';
+  encodedData: {};
   scannedData: {};
-  barcodeScannerOptions: BarcodeScannerOptions;
-
+  barcodeScannerOptions: BarcodeScannerOptions;  
   people: any[] = [];
 
   constructor(private barcodeScanner: BarcodeScanner, private contacts: Contacts, private platform: Platform, private socialSharing: SocialSharing,
@@ -56,7 +55,6 @@ export class Tab2Page {
         this.addContact(response);
       }).catch((err) => {
         console.error('Error saving contact.', err);
-
       });
   }
 
@@ -67,16 +65,23 @@ export class Tab2Page {
         console.log('Your friendsdata is ', data);
         this.people = data;
       });
-    }
+    };
   }
 
   addContact(contact: Contact) {
     console.log('Contact added ' + contact);
+    if (this.people == null) {
+      this.people = [];
+    }
+    this.people.push({ name: contact.name.formatted, properties: { status: 'from phone', alias: contact.nickname } });
     this.storage.set('friendsdata', this.people);
   }
 
   addTest() {
-    this.people.push({ name: 'test', properties: { status: 'debugging' } });
+    if (this.people == null) {
+      this.people = [];
+    }
+    this.people.push({ name: 'Nice McNicenstein', properties: { status: 'debugging', alias: 'Beerio' } });
     this.storage.set('friendsdata', this.people);
   }
 
@@ -99,7 +104,7 @@ export class Tab2Page {
     let options = {
       message: 'Join me @ Beertastic', // not supported on some apps (Facebook, Instagram)
       subject: 'Beertastic', // fi. for email
-      files: ['', ''], // an array of filenames either locally or remotely
+      files: [], // an array of filenames either locally or remotely
       url: 'https://github.com/coberhauser/Beertastic',
       chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
     }
@@ -118,7 +123,7 @@ export class Tab2Page {
     this.barcodeScanner
       .scan()
       .then(barcodeData => {
-        alert("Barcode data " + JSON.stringify(barcodeData));
+        this.showToast(JSON.stringify(barcodeData));
         this.scannedData = barcodeData;
       })
       .catch(err => {
@@ -128,18 +133,25 @@ export class Tab2Page {
   }
 
   encodedText() {
-    this.barcodeScanner
-      .encode(this.barcodeScanner.Encode.TEXT_TYPE, this.encodeData)
-      .then(
-        encodedData => {
-          console.log(encodedData);
-          this.encodeData = encodedData;
-        },
-        err => {
-          this.presentAlert('Barcode encode is not available');
-          console.log("Error occured : " + err);
-        }
-      );
+    if (this.storage.get('userdata')) {
+      this.storage.get('userdata').then((data) => {
+        console.log('Your userdata is ', data);
+        var encodeThis = data['email'];
+        this.barcodeScanner
+          .encode(this.barcodeScanner.Encode.TEXT_TYPE, encodeThis)
+          .then(
+            encodedData => {
+              console.log(encodedData);
+              this.encodedData = encodedData;
+            },
+            err => {
+              this.presentAlert('Barcode encode is not available');
+              console.log("Error occured : " + err);
+            }
+          );
+      });
+    };
+
   }
 
   drink(buddyname) {

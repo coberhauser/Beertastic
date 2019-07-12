@@ -38,8 +38,8 @@ export class Tab1Page {
     this.map = GoogleMaps.create('map_canvas', {
       camera: {
         target: {
-          lat: 43.0741704,
-          lng: -89.3809802
+          lat: 48.139570,
+          lng: 11.542291
         },
         zoom: 18,
         tilt: 30
