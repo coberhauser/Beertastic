@@ -8,6 +8,7 @@ import { Contacts, Contact } from '@ionic-native/contacts/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 @Component({
   selector: 'app-tab2',
@@ -18,12 +19,14 @@ export class Tab2Page {
 
   encodedData: {};
   scannedData: {};
-  barcodeScannerOptions: BarcodeScannerOptions;  
+  barcodeScannerOptions: BarcodeScannerOptions;
   people: any[] = [];
+ userId : any;
 
   constructor(private barcodeScanner: BarcodeScanner, private contacts: Contacts, private platform: Platform, private socialSharing: SocialSharing,
     private alertController: AlertController,
     public toastCtrl: ToastController,
+    private oneSignal: OneSignal,
     private storage: Storage) {
     this.platform.ready().then((readySource) => {
       console.log('Platform ready from', readySource);
@@ -66,6 +69,14 @@ export class Tab2Page {
         this.people = data;
       });
     };
+    this.oneSignal.getIds()
+    .then(res => {
+      this.userId = res.userId;
+      alert(JSON.stringify(res));
+    })
+    .catch(err =>
+      alert(err)
+    );
   }
 
   addContact(contact: Contact) {
@@ -174,6 +185,32 @@ export class Tab2Page {
     });
 
     toast.present();
+  }
+
+
+  // add tags to users
+  sendTags() {
+    this.oneSignal.sendTags({ key: 'Beertastic' });
+    console.log("tags sent");
+  }
+
+  sendNotificationwithImage() {
+    var notificationObj = {
+      app_id: "2821b854-cfa7-4bc4-9e20-57ef25c046de",
+      include_player_ids: [this.userId, 'f656a70a-3f18-44c9-8b70-1c3f03619039'],
+      data: { data_key: "data_value", openURL: "https://imgur.com/" },
+      headings: { en: 'Bussis vom Tigi' },
+      contents: { en: "Herzlichen Glückwunsch zum 16. Jährigen!!!" }
+    };
+
+    this.oneSignal.postNotification(notificationObj)
+      .then(res =>
+        console.log("Notification Post Success:", res))
+      .catch(err => {
+        console.log("Notification Post Failed: ", err);
+        alert("Notification Post Failed:\n" + JSON.stringify(err));
+      });
+
   }
 
 }
