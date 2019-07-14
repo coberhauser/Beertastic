@@ -8,6 +8,7 @@ import {
   GoogleMapsAnimation,
   MyLocation
 } from '@ionic-native/google-maps';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 @Component({
   selector: 'app-tab1',
@@ -19,9 +20,11 @@ export class Tab1Page {
   map: GoogleMap;
   loading: any;
   dataReturned: any;
+  userId: any;
 
   constructor(public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController, private platform: Platform, public navController: NavController) { }
+    public toastCtrl: ToastController, private platform: Platform, public navController: NavController
+    , private oneSignal: OneSignal) { }
 
   async ngOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
@@ -76,6 +79,8 @@ export class Tab1Page {
         animation: GoogleMapsAnimation.BOUNCE
       });
 
+      this.sendNotification(location);
+
       // show the infoWindow
       marker.showInfoWindow();
 
@@ -105,6 +110,38 @@ export class Tab1Page {
     this.showToast('Prost');
   }
 
+  sendNotification(location) {
+    this.oneSignal.getIds()
+      .then(res => {
+        this.userId = res.userId;
+        alert(JSON.stringify(res));
+      })
+      .catch(err =>
+        alert(err)
+      );
+    if (this.userId.present()){
+
+      var notificationObj = {
+        app_id: "2821b854-cfa7-4bc4-9e20-57ef25c046de",
+        include_player_ids: [this.userId],
+        data: { latitude: location.latitude, long: location.long },
+        headings: { en: 'Obi says:' },
+        contents: { en: "I drink here" },
+
+      };
+
+      this.oneSignal.postNotification(notificationObj)
+        .then(res => {
+          console.log("Notification Post Success:", res);
+          alert('The fuck?');
+        })
+        .catch(err => {
+          console.log("Notification Post Failed: ", err);
+          alert("Notification Post Failed:\n" + JSON.stringify(err));
+        });
+    }
+  }
+
   GoToList() {
     this.navController.navigateForward('/modal');
   }
@@ -112,5 +149,11 @@ export class Tab1Page {
   BackToList() {
     this.navController.navigateBack('');
   }
+
+  // add tags to users
+  sendTags(key, value) {
+    this.oneSignal.sendTags({ key: value });
+  }
+
 }
 

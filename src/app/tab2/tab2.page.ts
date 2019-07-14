@@ -21,7 +21,7 @@ export class Tab2Page {
   scannedData: {};
   barcodeScannerOptions: BarcodeScannerOptions;
   people: any[] = [];
- userId : any;
+  userId: any;
 
   constructor(private barcodeScanner: BarcodeScanner, private contacts: Contacts, private platform: Platform, private socialSharing: SocialSharing,
     private alertController: AlertController,
@@ -70,13 +70,12 @@ export class Tab2Page {
       });
     };
     this.oneSignal.getIds()
-    .then(res => {
-      this.userId = res.userId;
-      alert(JSON.stringify(res));
-    })
-    .catch(err =>
-      alert(err)
-    );
+      .then(res => {
+        this.userId = res.userId;
+      })
+      .catch(err =>
+        alert(err)
+      );
   }
 
   addContact(contact: Contact) {
@@ -187,17 +186,10 @@ export class Tab2Page {
     toast.present();
   }
 
-
-  // add tags to users
-  sendTags() {
-    this.oneSignal.sendTags({ key: 'Beertastic' });
-    console.log("tags sent");
-  }
-
-  sendNotificationwithImage() {
+  sendNotification() {
     var notificationObj = {
       app_id: "2821b854-cfa7-4bc4-9e20-57ef25c046de",
-      include_player_ids: [this.userId, 'f656a70a-3f18-44c9-8b70-1c3f03619039'],
+      include_player_ids: [this.userId],
       data: { data_key: "data_value", openURL: "https://imgur.com/" },
       headings: { en: 'Bussis vom Tigi' },
       contents: { en: "Herzlichen Glückwunsch zum 16. Jährigen!!!" }

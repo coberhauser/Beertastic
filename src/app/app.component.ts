@@ -48,8 +48,8 @@ export class AppComponent {
     this.oneSignal.handleNotificationOpened().subscribe(data => {
       // Just a note that the data is a different place here!
       let additionalData = data.notification.payload.additionalData;
-
-      this.showAlert('Notification opened', 'You already read this before', additionalData.task);
+      additionalData.f
+      this.showAlert('Notification opened', JSON.stringify(data.notification.payload), 'OK');
     });
 
     this.oneSignal.endInit();
