@@ -191,8 +191,9 @@ export class Tab2Page {
       app_id: "2821b854-cfa7-4bc4-9e20-57ef25c046de",
       include_player_ids: [this.userId],
       data: { data_key: "data_value", openURL: "https://imgur.com/" },
-      headings: { en: 'Bussis vom Tigi' },
-      contents: { en: "Herzlichen Glückwunsch zum 16. Jährigen!!!" }
+      headings: { en: 'Prost' },
+      contents: { en: "Dude!" },
+      buttons: [{"id": "like-button", "text": "Like", "icon": "http://i.imgur.com/N8SN8ZS.png", "url": "https://yoursite.com"}, {"id": "read-more-button", "text": "Read more", "icon": "http://i.imgur.com/MIxJp1L.png", "url": "https://yoursite.com"}]
     };
 
     this.oneSignal.postNotification(notificationObj)

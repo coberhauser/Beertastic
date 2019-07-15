@@ -31,6 +31,13 @@ export class Tab1Page {
     // you have to wait the event.
     await this.platform.ready();
     await this.loadMap();
+    this.oneSignal.getIds()
+    .then(res => {
+      this.userId = res.userId;
+    })
+    .catch(err =>
+      alert(err)
+    );
   }
 
   public gotoSettings() {
@@ -64,6 +71,10 @@ export class Tab1Page {
       this.loading.dismiss();
       console.log(JSON.stringify(location, null, 2));
 
+
+      this.sendNotification(location);
+
+
       // Move the map camera to the location with animation
       this.map.animateCamera({
         target: location.latLng,
@@ -78,8 +89,6 @@ export class Tab1Page {
         position: location.latLng,
         animation: GoogleMapsAnimation.BOUNCE
       });
-
-      this.sendNotification(location);
 
       // show the infoWindow
       marker.showInfoWindow();
@@ -107,39 +116,26 @@ export class Tab1Page {
 
   async drink() {
     this.locateMe();
-    this.showToast('Prost');
   }
 
-  sendNotification(location) {
-    this.oneSignal.getIds()
+  async sendNotification(location) {
+    var notificationObj = {
+      app_id: "2821b854-cfa7-4bc4-9e20-57ef25c046de",
+      include_player_ids: [this.userId],
+      data: { latitude: location.latitude, long: location.long },
+      headings: { en: 'Obi says:' },
+      contents: { en: "I drink here" }
+    };
+
+    this.oneSignal.postNotification(notificationObj)
       .then(res => {
-        this.userId = res.userId;
-        alert(JSON.stringify(res));
+        console.log("Notification Post Success:", res);
       })
-      .catch(err =>
-        alert(err)
-      );
-    if (this.userId.present()){
+      .catch(err => {
+        console.log("Notification Post Failed: ", err);
+        alert("Notification Post Failed:\n" + JSON.stringify(err));
+      });
 
-      var notificationObj = {
-        app_id: "2821b854-cfa7-4bc4-9e20-57ef25c046de",
-        include_player_ids: [this.userId],
-        data: { latitude: location.latitude, long: location.long },
-        headings: { en: 'Obi says:' },
-        contents: { en: "I drink here" },
-
-      };
-
-      this.oneSignal.postNotification(notificationObj)
-        .then(res => {
-          console.log("Notification Post Success:", res);
-          alert('The fuck?');
-        })
-        .catch(err => {
-          console.log("Notification Post Failed: ", err);
-          alert("Notification Post Failed:\n" + JSON.stringify(err));
-        });
-    }
   }
 
   GoToList() {

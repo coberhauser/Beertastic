@@ -40,16 +40,15 @@ export class AppComponent {
     this.oneSignal.handleNotificationReceived().subscribe(data => {
       let msg = data.payload.body;
       let title = data.payload.title;
-      let additionalData = data.payload.additionalData;
-      this.showAlert(title, msg, additionalData.task);
+      let additionalData = data.payload.additionalData;      
+      this.showAlert(title, msg, data.payload.actionButtons);
     });
 
     // Notification was really clicked/opened
     this.oneSignal.handleNotificationOpened().subscribe(data => {
       // Just a note that the data is a different place here!
-      let additionalData = data.notification.payload.additionalData;
-      additionalData.f
-      this.showAlert('Notification opened', JSON.stringify(data.notification.payload), 'OK');
+      let additionalData = data.notification.payload.additionalData;     
+      this.showAlert('Notification opened', JSON.stringify(data.notification.payload), additionalData.task);
     });
 
     this.oneSignal.endInit();
