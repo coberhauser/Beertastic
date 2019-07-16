@@ -9,6 +9,7 @@ import {
   MyLocation
 } from '@ionic-native/google-maps';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import * as Constants from '../constants';
 
 @Component({
   selector: 'app-tab1',
@@ -120,7 +121,7 @@ export class Tab1Page {
 
   async sendNotification(location) {
     var notificationObj = {
-      app_id: "2821b854-cfa7-4bc4-9e20-57ef25c046de",
+      app_id: Constants.ONESIGNAL_API_ID,
       include_player_ids: [this.userId],
       data: { latitude: location.latitude, long: location.long },
       headings: { en: 'Obi says:' },

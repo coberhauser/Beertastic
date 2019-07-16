@@ -9,6 +9,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import * as Constants from '../constants';
 
 @Component({
   selector: 'app-tab2',
@@ -39,12 +40,8 @@ export class Tab2Page {
   }
 
   async presentAlert(_message) {
-    this.presentAlert2('Error', _message);
-  }
-
-  async presentAlert2(_title, _message) {
     const alert = await this.alertController.create({
-      header: _title,
+      header: 'Error',
       message: _message,
       buttons: ['OK']
     });
@@ -83,15 +80,7 @@ export class Tab2Page {
     if (this.people == null) {
       this.people = [];
     }
-    this.people.push({ name: contact.name.formatted, properties: { status: 'from phone', alias: contact.nickname } });
-    this.storage.set('friendsdata', this.people);
-  }
-
-  addTest() {
-    if (this.people == null) {
-      this.people = [];
-    }
-    this.people.push({ name: 'Nice McNicenstein', properties: { status: 'debugging', alias: 'Beerio' } });
+    this.people.push({ name: contact.name.formatted, properties: { status: 'from phone', alias: contact.nickname, player_id: this.userId } });
     this.storage.set('friendsdata', this.people);
   }
 
@@ -146,7 +135,7 @@ export class Tab2Page {
     if (this.storage.get('userdata')) {
       this.storage.get('userdata').then((data) => {
         console.log('Your userdata is ', data);
-        var encodeThis = data['email'];
+        var encodeThis = data['alias'] + '@' + this.userId;
         this.barcodeScanner
           .encode(this.barcodeScanner.Encode.TEXT_TYPE, encodeThis)
           .then(
@@ -159,7 +148,11 @@ export class Tab2Page {
               console.log("Error occured : " + err);
             }
           );
-      });
+      },
+        err => { 
+          this.presentAlert('user information not available'); 
+          console.log("Error occured : " + err); 
+        });
     };
 
   }
@@ -186,14 +179,13 @@ export class Tab2Page {
     toast.present();
   }
 
-  sendNotification() {
+  sendNotification(person: any, _title) {
     var notificationObj = {
-      app_id: "2821b854-cfa7-4bc4-9e20-57ef25c046de",
-      include_player_ids: [this.userId],
-      data: { data_key: "data_value", openURL: "https://imgur.com/" },
-      headings: { en: 'Prost' },
-      contents: { en: "Dude!" },
-      buttons: [{"id": "like-button", "text": "Like", "icon": "http://i.imgur.com/N8SN8ZS.png", "url": "https://yoursite.com"}, {"id": "read-more-button", "text": "Read more", "icon": "http://i.imgur.com/MIxJp1L.png", "url": "https://yoursite.com"}]
+      app_id: Constants.ONESIGNAL_API_ID,
+      include_player_ids: [person.properties.player_id],
+      headings: { en: _title },
+      contents: { en: person.name + " it's time to drink!" },
+      buttons: [{ "id": "like-button", "text": "Like", "icon": "http://i.imgur.com/N8SN8ZS.png", "url": "https://yoursite.com" }, { "id": "read-more-button", "text": "Read more", "icon": "http://i.imgur.com/MIxJp1L.png", "url": "https://yoursite.com" }]
     };
 
     this.oneSignal.postNotification(notificationObj)

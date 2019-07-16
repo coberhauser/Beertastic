@@ -4,6 +4,7 @@ import { Platform, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import * as Constants from './constants';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +33,7 @@ export class AppComponent {
 
   setupPush() {
     // I recommend to put these into your environment.ts
-    this.oneSignal.startInit('2821b854-cfa7-4bc4-9e20-57ef25c046de', 'beertastic-1562176544526');
+    this.oneSignal.startInit(Constants.ONESIGNAL_API_ID, Constants.GOOGLE_PROJECT_ID);
 
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
 
